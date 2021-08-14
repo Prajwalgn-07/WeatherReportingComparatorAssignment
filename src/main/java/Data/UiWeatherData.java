@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class UiWeatherData {
-    public @Getter String Temperature;
-    public @Getter String Visibility;
-    public @Getter String Humidity;
+    public @Getter String uiTemperature;
+    public @Getter String uiVisibility;
+    public @Getter String uiHumidity;
 }

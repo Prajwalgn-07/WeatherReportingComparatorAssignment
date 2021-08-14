@@ -38,3 +38,4 @@ public class WeatherPage{
         return new UiWeatherData(Temperature,Visibility,Humidity);
     }
 }
+
