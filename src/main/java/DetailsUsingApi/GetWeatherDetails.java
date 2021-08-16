@@ -4,6 +4,7 @@ import Data.ApiWeatherData;
 import io.restassured.response.Response;
 import utils.PropertyReader;
 
+import java.beans.Visibility;
 import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
@@ -28,12 +29,19 @@ public class GetWeatherDetails {
                 .get(this.baseUrl);
         return details;
     }
-    public void getWeatherDetails(String location){
+    public ApiWeatherData getWeatherDetails(String location){
         Response response=getResponse(location);
         String temperature=response.jsonPath().getString("main.temp");
         String humidity=response.jsonPath().getString("main.humidity");
         String visibility=response.jsonPath().getString("visibility");
-        new ApiWeatherData(temperature,visibility,humidity);
+        return setWeatherDetails(temperature,visibility,humidity);
+    }
+    public ApiWeatherData setWeatherDetails(String temperature,String visibility,String humidity){
+        ApiWeatherData apiWeatherData=new ApiWeatherData();
+        apiWeatherData.setApiHumidity(humidity);
+        apiWeatherData.setApiTemperature(temperature);
+        apiWeatherData.setApiVisibility(visibility);
+        return apiWeatherData;
     }
 
 }
