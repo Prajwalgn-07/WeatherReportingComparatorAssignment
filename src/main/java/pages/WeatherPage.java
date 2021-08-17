@@ -21,7 +21,7 @@ public class WeatherPage extends Waits{
     }
     @FindBy(xpath = "/html/body/div/div[5]/div[1]/div[1]/a[1]/div[2]/span[2]")
     WebElement detailedWeatherData;
-    @FindBy(className = "temp")
+    @FindBy(xpath = "/html/body/div/div[5]/div[1]/div[1]/div[2]/div[2]/div[1]/div")
     WebElement currentTemperature;
     @FindBy(xpath = "/html/body/div/div[5]/div[1]/div[1]/div[2]/div[4]/div[1]/div[5]/div[2]")
     WebElement currentHumidity;
@@ -39,6 +39,7 @@ public class WeatherPage extends Waits{
         //handling the ads
         driver.switchTo().frame(googleAdIframe);
         adClose.click();
+        driver.switchTo().defaultContent();
         String Temperature=currentTemperature.getText();
         String Humidity=currentHumidity.getText();
         String Visibility=currentVisibility.getText();
