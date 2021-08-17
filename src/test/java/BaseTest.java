@@ -11,6 +11,7 @@ import utils.PropertyReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
     public static WebDriver driver;
@@ -19,15 +20,20 @@ public class BaseTest {
         propertyReader=new PropertyReader("/Users/prajwal/Desktop/testvagrant /assignment projects/WeatherReportingComparatorAssignment/src/main/resources/WebPage.properties");
     }
     public void initializeBrowser(){
-        String browser=System.getProperty("browser");
-        String headless=System.getProperty("headless");
+//        String browser=System.getProperty("browser");
+        String browser="chrome";
+//        String headless=System.getProperty("headless");
+        String headless="True";
         if(browser.equals("chrome")){
             WebDriverManager.chromedriver().setup();
-            Map<String,Object>prefs=new HashMap<>();
-            prefs.put("profile.default_context_setting_values.notifications",propertyReader.getProperty("Notification"));
             ChromeOptions options=new ChromeOptions();
-            options.setExperimentalOption("prefs",prefs);
+            options.addArguments("--disable-notifications");
+            options.addArguments("--allow-insecure-localhost");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--no-sandbox");
             if(headless.equals("True")){
+                //To bypass access denying for headless browser
+                options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36");
                 options.setHeadless(true);
             }
             driver=new ChromeDriver(options);
@@ -35,11 +41,11 @@ public class BaseTest {
         else if(browser.equals("firefox")){
             WebDriverManager.firefoxdriver().setup();
             FirefoxProfile profile=new FirefoxProfile();
-            profile.setPreference("permissions.default.desktop-notification", propertyReader.getProperty("Notification"));
+            profile.setPreference("permissions.default.desktop-notification", Integer.parseInt(propertyReader.getProperty("Notification")));
             FirefoxOptions firefoxOptions=new FirefoxOptions();
             firefoxOptions.setCapability(FirefoxDriver.PROFILE, profile);
             if(headless.equals("True")){
-                firefoxOptions.setCapability("headless",true);
+                firefoxOptions.setHeadless(true);
             }
             driver=new FirefoxDriver(firefoxOptions);
         }
