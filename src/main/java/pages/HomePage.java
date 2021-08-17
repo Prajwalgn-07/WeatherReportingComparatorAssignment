@@ -13,31 +13,34 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Waits;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public class HomePage extends Waits{
+public class HomePage extends Waits {
     WebDriver driver;
-    public HomePage(WebDriver driver){
+
+    public HomePage(WebDriver driver) {
         super(driver);
-        this.driver=driver;
-        PageFactory.initElements(driver,this);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
+
     @FindBy(className = "search-input")
     WebElement searchBox;
-    @FindBy(className = "results-container")
-    List<WebElement>searchBarResults;
-    @FindBy(className = "results-container")
-    WebElement results;
-    public void searchLocation(String place){
+    @FindBy(xpath = "/html/body/div/div[1]/div[3]/div[2]/div[2]")
+    WebElement resultContainer;
+    @FindBy(xpath = "/html/body/div/div[1]/div[3]/div[2]/div[1]")
+    WebElement currentLocation;
+    @FindBy(xpath = "/html/body/div/div[1]/div[3]/div[2]/div[2]/div[1]")
+    WebElement firstSearchResult;
+
+    public void searchLocation(String place) {
         searchBox.click();
         searchBox.sendKeys(place);
-        visibilityOfElementLocated(5,results);
-        for(WebElement webElement:searchBarResults){
-            String[]splitPlace=webElement.getText().split(",");
-            if(splitPlace[0].contains(place)){
-            webElement.click();
-            break;
-            }
-        }
+        visibilityOfElementLocated(5,resultContainer);
+        Actions actions=new Actions(driver);
+        actions.moveToElement(firstSearchResult).click().build().perform();
     }
 }
+
