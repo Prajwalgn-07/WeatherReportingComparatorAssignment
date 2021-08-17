@@ -1,13 +1,12 @@
 package Data;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
 @ToString
 public class ApiWeatherData {
-    public @Getter String apiTemperature;
-    public @Getter String apiVisibility;
-    public @Getter String apiHumidity;
+    public @Getter @Setter String apiTemperature;
+    public @Getter @Setter String apiVisibility;
+    public @Getter @Setter String apiHumidity;
 }
