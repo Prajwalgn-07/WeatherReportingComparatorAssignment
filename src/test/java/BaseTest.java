@@ -5,13 +5,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.PropertyReader;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
     public static WebDriver driver;
@@ -20,10 +16,8 @@ public class BaseTest {
         propertyReader=new PropertyReader("/Users/prajwal/Desktop/testvagrant /assignment projects/WeatherReportingComparatorAssignment/src/main/resources/WebPage.properties");
     }
     public void initializeBrowser(){
-//        String browser=System.getProperty("browser");
-        String browser="chrome";
-//        String headless=System.getProperty("headless");
-        String headless="True";
+        String browser=System.getProperty("browser");
+        String headless=System.getProperty("headless");
         if(browser.equals("chrome")){
             WebDriverManager.chromedriver().setup();
             ChromeOptions options=new ChromeOptions();
