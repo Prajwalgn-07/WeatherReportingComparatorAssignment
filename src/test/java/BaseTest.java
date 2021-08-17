@@ -51,10 +51,11 @@ public class BaseTest {
         }
         else{
             WebDriverManager.chromedriver().setup();
-            Map<String,Object>prefs=new HashMap<>();
-            prefs.put("profile.default_context_setting_values.notifications",propertyReader.getProperty("Notification"));
             ChromeOptions options=new ChromeOptions();
-            options.setExperimentalOption("prefs",prefs);
+            options.addArguments("--disable-notifications");
+            options.addArguments("--allow-insecure-localhost");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--no-sandbox");
             driver=new ChromeDriver(options);
         }
         driver.manage().window().maximize();
