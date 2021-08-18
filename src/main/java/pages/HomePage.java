@@ -30,8 +30,6 @@ public class HomePage extends Waits {
     WebElement searchBox;
     @FindBy(xpath = "/html/body/div/div[1]/div[3]/div[2]/div[2]")
     WebElement resultContainer;
-    @FindBy(xpath = "/html/body/div/div[1]/div[3]/div[2]/div[1]")
-    WebElement currentLocation;
     @FindBy(xpath = "/html/body/div/div[1]/div[3]/div[2]/div[2]/div[1]")
     WebElement firstSearchResult;
 

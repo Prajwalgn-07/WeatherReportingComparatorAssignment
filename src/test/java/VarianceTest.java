@@ -15,44 +15,29 @@ import java.io.File;
 import java.io.IOException;
 
 public class VarianceTest extends BaseTest{
+    @DataProvider(name = "cityNames")
+    public Object[][] cities(){
+        return new Object[][]{{"Bengaluru"},{"Mumbai"},{"Kolkata"},{"Delhi"}
+        };
+    }
     public VarianceTest() throws IOException {
         super();
-        initializeBrowser();
     }
     PropertyReader propertyReader;
-    UiWeatherData uiWeatherData;
-    ApiWeatherData apiWeatherData;
-    public double temperatureDifference;
-    public double humidityDifference;
-    public double visibilityDifference;
 
     @BeforeMethod
-    @Parameters("city")
-    public void getDetails(String city) throws IOException {
+    public void setUp() {
+        initializeBrowser();
+    }
+    @Test(dataProvider = "cityNames")
+    public void varianceTest(String city) throws IOException {
         propertyReader=new PropertyReader("/Users/prajwal/Desktop/testvagrant /assignment projects/WeatherReportingComparatorAssignment/src/main/resources/Variance.properties");
         new HomePage(driver).searchLocation(city);
-        uiWeatherData=new WeatherPage(driver).CurrentWeatherDetails();
-        apiWeatherData=new GetWeatherDetails().getWeatherDetails(city);
-        this.temperatureDifference=Math.abs((doublePartInString(uiWeatherData.getUiTemperature())
-                -doublePartInString(apiWeatherData.getApiTemperature())));
-        this.humidityDifference=Math.abs(doublePartInString(uiWeatherData.getUiHumidity())
-                                    -doublePartInString(apiWeatherData.getApiHumidity()));
-        this.visibilityDifference=Math.abs(doublePartInString(uiWeatherData.getUiVisibility())
-                                  -doublePartInString(apiWeatherData.getApiVisibility()));
-    }
-    @Test
-    public void temperatureVariance() throws IOException {
+        UiWeatherData uiWeatherData=new WeatherPage(driver).CurrentWeatherDetails();
+        ApiWeatherData apiWeatherData=new GetWeatherDetails().getWeatherDetails(city);
+        setDifference(uiWeatherData,apiWeatherData);
         Assert.assertTrue(temperatureDifference < Double.parseDouble(propertyReader.getProperty("temperatureVariance")));
-    }
-    @Ignore
-    @Test
-    public void humidityVariance(){
-        Assert.assertTrue(humidityDifference < Double.parseDouble(propertyReader.getProperty("humidityVariance")));
-    }
-    @Ignore
-    @Test
-    public void visibilityVariance(){
-        Assert.assertTrue(visibilityDifference < Double.parseDouble(propertyReader.getProperty("visibilityVariance")));
+        Assert.assertTrue(windSpeedDifference < Double.parseDouble(propertyReader.getProperty("windSpeedVariance")));
     }
     @AfterMethod
     public void tearDown(ITestResult result){

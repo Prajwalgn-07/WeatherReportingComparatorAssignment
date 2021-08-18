@@ -7,7 +7,6 @@
         </classes>
     </test>
     <test name="varianceTest">
-        <parameter name="city" value="Bengaluru"></parameter>
         <classes>
             <class name="VarianceTest"></class>
         </classes>
