@@ -32,15 +32,13 @@ public class GetWeatherDetails {
     public ApiWeatherData getWeatherDetails(String location){
         Response response=getResponse(location);
         String temperature=response.jsonPath().getString("main.temp");
-        String humidity=response.jsonPath().getString("main.humidity");
-        String visibility=response.jsonPath().getString("visibility");
-        return setWeatherDetails(temperature,visibility,humidity);
+        String windSpeed=response.jsonPath().getString("wind.speed");
+        return setWeatherDetails(temperature,windSpeed);
     }
-    public ApiWeatherData setWeatherDetails(String temperature,String visibility,String humidity){
+    public ApiWeatherData setWeatherDetails(String temperature,String windSpeed){
         ApiWeatherData apiWeatherData=new ApiWeatherData();
-        apiWeatherData.setApiHumidity(humidity);
+        apiWeatherData.setApiWindSpeed(windSpeed);
         apiWeatherData.setApiTemperature(temperature);
-        apiWeatherData.setApiVisibility(visibility);
         return apiWeatherData;
     }
 
