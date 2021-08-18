@@ -32,12 +32,9 @@ public class ComparatorTest extends BaseTest{
         new HomePage(driver).searchLocation(cityNames);
         UiWeatherData uiWeatherData=new WeatherPage(driver).CurrentWeatherDetails();
         ApiWeatherData apiWeatherData=new GetWeatherDetails().getWeatherDetails(cityNames);
-        System.out.println("The Temperature difference between ui and api is: %.2f"+ Math.abs((doublePartInString(uiWeatherData.getUiTemperature())
-                -doublePartInString(apiWeatherData.getApiTemperature())))+"Centigrade");
-        System.out.println("The Humidity difference between ui and api is: %.2f"+Math.abs(doublePartInString(uiWeatherData.getUiHumidity())
-                -doublePartInString(apiWeatherData.getApiHumidity()))+"%");
-        System.out.println("The Visibility difference between ui and api is: %.2f"+Math.abs(doublePartInString(uiWeatherData.getUiVisibility())
-                -doublePartInString(apiWeatherData.getApiVisibility()))+"km");
+        setDifference(uiWeatherData,apiWeatherData);
+        System.out.println("The temperature difference between ui and api is: "+String.format("%,.2f",temperatureDifference));
+        System.out.println("The wind speed difference between ui and api is: "+String.format("%,.2f",windSpeedDifference));
     }
     @AfterMethod
     public void tearDown(ITestResult result){
