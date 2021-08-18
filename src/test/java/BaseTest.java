@@ -1,3 +1,5 @@
+import Data.ApiWeatherData;
+import Data.UiWeatherData;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,6 +14,8 @@ import java.io.IOException;
 public class BaseTest {
     public static WebDriver driver;
     PropertyReader propertyReader;
+    public double temperatureDifference;
+    public double windSpeedDifference;
     public BaseTest() throws IOException {
         propertyReader=new PropertyReader("/Users/prajwal/Desktop/testvagrant /assignment projects/WeatherReportingComparatorAssignment/src/main/resources/WebPage.properties");
     }
@@ -57,5 +61,22 @@ public class BaseTest {
     }
     public double doublePartInString(String data){
         return Double.parseDouble(data.replaceAll("[^0-9\\.]", "").trim());
+    }
+    public void setDifference(UiWeatherData uiWeatherData,ApiWeatherData apiWeatherData) throws IOException {
+        PropertyReader propertyReader=new PropertyReader("/Users/prajwal/Desktop/testvagrant /assignment projects/WeatherReportingComparatorAssignment/src/main/resources/api.properties");
+        if(propertyReader.getProperty("units").equals("metric")){
+            this.temperatureDifference=Math.abs((doublePartInString(uiWeatherData.getUiTemperature())
+                    -doublePartInString(apiWeatherData.getApiTemperature())));
+            this.windSpeedDifference=Math.abs(doublePartInString(uiWeatherData.getUiWindSpeed())
+                    -(doublePartInString(apiWeatherData.getApiWindSpeed())*doublePartInString(propertyReader.getProperty("m/sTokm/h"))));
+        }
+        else if(propertyReader.getProperty("units").equals("imperial")){
+            this.temperatureDifference=Math.abs((doublePartInString(uiWeatherData.getUiTemperature())
+            -(doublePartInString(apiWeatherData.getApiTemperature())-doublePartInString(
+            propertyReader.getProperty("fahrenheitToCelsiusSubtractor")))/doublePartInString(
+            propertyReader.getProperty("fahrenheitToCelsiusDivisor"))));
+            this.windSpeedDifference=Math.abs(doublePartInString(uiWeatherData.getUiWindSpeed())
+            -(doublePartInString(apiWeatherData.getApiWindSpeed())*doublePartInString(propertyReader.getProperty("miles/hrTokm/h"))));
+        }
     }
 }
